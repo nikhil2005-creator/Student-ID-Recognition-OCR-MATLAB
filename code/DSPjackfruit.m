@@ -11,9 +11,14 @@ try
     cam = webcam(1);  % Initialize webcam (change index if needed)
 
     % Load or create student database
+    needsRebuild = true;
     if exist('studentDB.mat', 'file')          %if the file exists,it loads the data to studentDB
         load('studentDB.mat', 'studentDB');
-    else
+        % Rebuild if the saved database is an older version without the Phone_num field
+        k = keys(studentDB);
+        needsRebuild = isempty(k) || ~isfield(studentDB(k{1}), 'Phone_num');
+    end
+    if needsRebuild
         studentDB = containers.Map();         %else creating dictionary
         studentDB('PES1UG23EC203') = struct('Name', 'Nikhil N', 'Course', 'ECE', 'Year', '2nd', 'Phone_num', 'xx');
         studentDB('PES1UG23EC200') = struct('Name', 'Nikhil Babu', 'Course', 'ECE', 'Year', '2nd', 'Phone_num', 'yy');

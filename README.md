@@ -211,12 +211,7 @@ have to register with the college first.
 
 ### Test 3: Attendance recorded (`PES1UG23EC230`)
 
-Output: the registered student is found on the first attempt and entry is
-allowed. The phone number is shown as the placeholder `zz`.
-
-<img src="simulation_results/output3_attendance_run.png" width="450">
-
-The scan is saved automatically to `attendance.csv` with the SRN, name, course,
+When a registered student is found, the scan is saved automatically to `attendance.csv` with the SRN, name, course,
 year, date and time:
 
 <img src="simulation_results/attendance_csv.png" width="500">

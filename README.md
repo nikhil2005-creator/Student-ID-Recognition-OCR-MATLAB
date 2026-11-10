@@ -49,13 +49,20 @@ check that can't be fooled by an ID number that isn't on record.
 
 ## Purpose: class attendance
 
-The same ID scan can also be used to **mark attendance** for classes:
+The same ID scan is also used to **mark attendance** for classes:
 
 - Students scan their ID card at the classroom entrance.
-- When the SRN is found in the database, that student is identified and marked
-  **present** for the class.
-- SRNs that aren't in the database aren't counted, so attendance can't be
+- When the SRN is found in the database, the student is marked **present**.
+  Their SRN, name, course, year, date and time are saved to `attendance.csv`.
+- SRNs that aren't in the database aren't recorded, so attendance can't be
   marked for someone who isn't registered.
+
+Example `attendance.csv`:
+```
+SRN,Name,Course,Year,Date,Time
+PES1UG23EC230,Pruthvi,ECE,2nd,10-11-2026,09:02:15
+PES1UG23EC203,Nikhil N,ECE,2nd,10-11-2026,09:02:48
+```
 
 This removes the need for roll calls or paper registers and saves class time.
 
@@ -75,7 +82,7 @@ This removes the need for roll calls or paper registers and saves class time.
 
 ```
 ├── code/
-│   └── DSPjackfruit.m          # main script: webcam → preprocessing → OCR → database lookup
+│   └── DSPjackfruit.m          # main script: webcam → preprocessing → OCR → database lookup → attendance
 ├── database/
 │   └── create_studentDB.m      # builds studentDB.mat (student records)
 ├── simulation_results/         # input images, OCR images and MATLAB outputs
@@ -91,13 +98,15 @@ This removes the need for roll calls or paper registers and saves class time.
 ```
 Webcam snapshot → Grayscale → Median filter → Sharpen → Contrast adjust
 → Resize (×2) → Adaptive binarization → Median filter → OCR → Database lookup
+→ Attendance saved to attendance.csv
 ```
 
 1. The script captures an image from the webcam.
 2. The image goes through the preprocessing steps below so the text is clear.
 3. OCR reads the text. It only accepts the characters `A–Z` and `0–9`.
 4. If the detected text matches an SRN in the database, the student's name,
-   course, year and phone number are displayed.
+   course, year and phone number are displayed, and attendance is saved to
+   `attendance.csv`.
 5. If nothing is detected or the SRN isn't in the database, the script tries
    again, up to **10 attempts**.
 
@@ -167,6 +176,8 @@ Implemented with `imbinarize(..., 'adaptive', 'Sensitivity', 0.4)`.
    `studentDB.mat`. If the file doesn't exist, the main script creates it
    automatically.
 5. Run `DSPjackfruit.m` and hold the ID card (SRN) in front of the camera.
+6. Each successful scan is appended to `attendance.csv` in the same folder.
+   The file is created automatically on the first scan.
 
 > Phone numbers in this repository are replaced with placeholders
 > (`xx`, `yy`, `zz`, `aa`) for privacy.
@@ -216,8 +227,8 @@ read reliably.
   SRN and ID card and added to the database (see `database/create_studentDB.m`),
   after which they can scan in like everyone else.
 
-- **Attendance:** the same scan identifies the student in class, so their
-  attendance can be marked automatically.
+- **Attendance:** every successful scan is saved to `attendance.csv` with the
+  date and time, so class attendance is recorded automatically.
 
 The system shows an efficient, low-cost way for modern colleges to secure
 their campus and take class attendance with real-time automated student

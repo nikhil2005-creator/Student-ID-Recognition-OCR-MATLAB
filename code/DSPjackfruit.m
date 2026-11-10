@@ -83,6 +83,22 @@ try
             disp(['Course: ', studentInfo.Course]);
             disp(['Year: ', studentInfo.Year]);
             disp(['Phone Number: ', studentInfo.Phone_num]);
+
+            % Mark attendance: append SRN, name, course, year, date and time to attendance.csv
+            attendanceFile = 'attendance.csv';
+            isNewFile = ~exist(attendanceFile, 'file');
+            fid = fopen(attendanceFile, 'a');
+            if fid ~= -1
+                if isNewFile
+                    fprintf(fid, 'SRN,Name,Course,Year,Date,Time\n');   % header row only once
+                end
+                scanTime = datetime('now');
+                fprintf(fid, '%s,%s,%s,%s,%s,%s\n', detectedNumber, studentInfo.Name, ...
+                        studentInfo.Course, studentInfo.Year, ...
+                        char(scanTime, 'dd-MM-yyyy'), char(scanTime, 'HH:mm:ss'));
+                fclose(fid);
+            end
+
             success = true;
             break;
         else

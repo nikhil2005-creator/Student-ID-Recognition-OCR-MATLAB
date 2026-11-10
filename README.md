@@ -27,6 +27,26 @@ respective details of the student using MATLAB.
 
 ---
 
+## Purpose: campus security
+
+This project is an **automated entry check for modern colleges**. Only
+registered students are allowed onto the campus.
+
+- At the entrance, each person shows their ID card to the camera.
+- The system reads the SRN and checks it against the college's student database.
+- ✅ **Registered student:** the SRN is found and the student's details (name,
+  course, year, phone number) are displayed, so **entry is allowed**.
+- ❌ **Unauthorised person:** the SRN isn't in the database, or no valid ID is
+  shown, so **entry is denied**.
+- 📝 **New student or visitor:** they must first **register with the college**.
+  They're given a new SRN and ID card, and their details are added to the
+  database. After that, they can scan and enter like any other student.
+
+This replaces manual ID checking by security staff with a faster, automatic
+check that can't be fooled by an ID number that isn't on record.
+
+---
+
 ## Tools
 
 1. MATLAB
@@ -147,7 +167,8 @@ Implemented with `imbinarize(..., 'adaptive', 'Sensitivity', 0.4)`.
 |---|---|
 | <img src="simulation_results/input1_PES1UG23EC230.jpeg" width="150"> | <img src="simulation_results/ocr_image1.jpeg" width="500"> |
 
-Output: the SRN is detected on attempt 3 and the student's details are displayed.
+Output: the SRN is detected on attempt 3. The student is found in the database,
+their details are displayed, and entry is allowed.
 
 <img src="simulation_results/output1_student_found.jpeg" width="500">
 
@@ -157,8 +178,9 @@ Output: the SRN is detected on attempt 3 and the student's details are displayed
 |---|---|
 | <img src="simulation_results/input2_PES1UG23EC300.jpeg" width="150"> | <img src="simulation_results/ocr_image2.jpeg" width="500"> |
 
-Output: the SRN is detected correctly but isn't in the database, so the script
-reports **"Not a valid student ID"** and keeps retrying.
+Output: the SRN is read correctly but isn't in the database, so the script
+reports **"Not a valid student ID"** and entry is denied. This person would
+have to register with the college first.
 
 <img src="simulation_results/output2_not_a_student.jpeg" width="500">
 
@@ -166,14 +188,19 @@ reports **"Not a valid student ID"** and keeps retrying.
 
 ## Conclusion
 
-This MATLAB script combines webcam input and OCR to identify students from
-their ID cards. Image preprocessing techniques improve text recognition
-accuracy. The Image Processing, Signal Processing and Computer Vision toolboxes
-provide the processing and OCR functions. A student database is used to verify
-the SRN and display the student's details when detection succeeds.
+This MATLAB project combines webcam input, DSP-based image enhancement and OCR
+to build an automated security check at the college entrance. Preprocessing
+(grayscale conversion, median filtering, sharpening, contrast adjustment and
+adaptive thresholding) makes the SRN on the ID card clear enough for OCR to
+read reliably.
 
-If the detected text doesn't match any entry in the database, the output says
-it's not a valid student. If a student belongs to the college but isn't
-detected, their SRN has to be registered in the database. The system shows an
-efficient method for automated student identification using real-time image
-capture.
+- **Registered students:** their SRN is found in the database, their details
+  are displayed and they can enter.
+- **Unregistered SRNs:** the system shows **"Not a valid student ID"**, and the
+  person isn't allowed in.
+- **New students or visitors:** they must first register. They're given a new
+  SRN and ID card and added to the database (see `database/create_studentDB.m`),
+  after which they can scan in like everyone else.
+
+The system shows an efficient, low-cost way for modern colleges to secure
+their campus with real-time automated student identification.

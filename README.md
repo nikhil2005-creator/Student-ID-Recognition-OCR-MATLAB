@@ -5,6 +5,10 @@ It cleans up the image with digital signal processing techniques, reads the
 text with OCR, and looks the SRN up in a student database to display that
 student's details.
 
+It's built for modern colleges, for two purposes:
+- **Campus security:** only registered students can enter.
+- **Class attendance:** students are marked present when they scan.
+
 ---
 
 ## Team members
@@ -42,6 +46,18 @@ registered students are allowed onto the campus.
 
 This replaces manual ID checking by security staff with a faster, automatic
 check that can't be fooled by an ID number that isn't on record.
+
+## Purpose: class attendance
+
+The same ID scan can also be used to **mark attendance** for classes:
+
+- Students scan their ID card at the classroom entrance.
+- When the SRN is found in the database, that student is identified and marked
+  **present** for the class.
+- SRNs that aren't in the database aren't counted, so attendance can't be
+  marked for someone who isn't registered.
+
+This removes the need for roll calls or paper registers and saves class time.
 
 ---
 
@@ -200,5 +216,9 @@ read reliably.
   SRN and ID card and added to the database (see `database/create_studentDB.m`),
   after which they can scan in like everyone else.
 
+- **Attendance:** the same scan identifies the student in class, so their
+  attendance can be marked automatically.
+
 The system shows an efficient, low-cost way for modern colleges to secure
-their campus with real-time automated student identification.
+their campus and take class attendance with real-time automated student
+identification.

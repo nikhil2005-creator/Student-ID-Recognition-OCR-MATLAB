@@ -5,8 +5,6 @@ It cleans up the image with digital signal processing techniques, reads the
 text with OCR, and looks the SRN up in a student database to display that
 student's details.
 
-*DSP Jackfruit-level problem*
-
 ---
 
 ## Team members
